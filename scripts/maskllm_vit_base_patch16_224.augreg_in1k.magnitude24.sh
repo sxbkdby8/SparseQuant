@@ -1,0 +1,32 @@
+torchrun --nnodes=1 --nproc_per_node=4 --master_port 23432 timm_train.py \
+    --model vit_base_patch16_224 \
+    --sparsity-mode maskllm \
+    --mask-only \
+    --sparse-checkpoint output/pruned/vit_base_patch16_224.augreg_in1k.magnitude24.pt \
+    -b 128 \
+    --opt adamw \
+    --lr 1e-3 \
+    --weight-decay 0.01 \
+    --epochs 20 \
+    --warmup-epochs 0 \
+    --mixup 0.8 \
+    --cutmix 1.0 \
+    --sched cosine \
+    --smoothing 0.1 \
+    --drop-path 0.1 \
+    --aa rand-m8-inc1-mstd101 \
+    --remode pixel --reprob 0.3 \
+    --amp \
+    --crop-pct 0.9 \
+    --mean 0.5 0.5 0.5 \
+    --std 0.5 0.5 0.5 \
+    --output output/maskllm_vit_base_patch16_224.augreg_in1k.magnitude24 \
+    --scaling-range 1e1 1e2 \
+    --tau-range 4 0.05 \
+    --log-wandb \
+    --sparse-weight-reg 1e-5 \
+    --clip-grad 2.0 \
+    --min-lr 1e-4 \
+    --model-ema \
+    --model-ema-decay 0.9998 \
+    --prior-strength 3 \
